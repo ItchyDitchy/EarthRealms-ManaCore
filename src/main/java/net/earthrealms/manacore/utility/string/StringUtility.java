@@ -183,6 +183,10 @@ public class StringUtility {
 		return StringUtils.center(text, 320);
 	}
 	
+	public static String translateColor(String string) {
+		return translateColors(string);
+	}
+	
 	public static String translateColors(String string) {
         String output = ChatColor.translateAlternateColorCodes('&', string);
 

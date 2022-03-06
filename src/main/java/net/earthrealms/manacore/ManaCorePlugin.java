@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.earthrealms.manacore.module.account.AccountHandler;
 import net.earthrealms.manacore.module.mine.MineHandler;
 import net.earthrealms.manacore.utility.string.StringUtility;
 
@@ -11,6 +12,7 @@ public class ManaCorePlugin extends JavaPlugin {
 
 	private static ManaCorePlugin plugin;
 	
+	private AccountHandler accountHandler;
 	private MineHandler mineHandler;
 	
 	/**
@@ -42,6 +44,7 @@ public class ManaCorePlugin extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		accountHandler = new AccountHandler();
 		mineHandler = new MineHandler();
 	}
 	
@@ -54,5 +57,7 @@ public class ManaCorePlugin extends JavaPlugin {
 		return mineHandler;
 	}
 	
-	
+	public AccountHandler getAccountHandler() {
+		return accountHandler;
+	}
 }

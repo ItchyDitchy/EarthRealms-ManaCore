@@ -1,0 +1,11 @@
+name: ManaCore
+version: "0.0.01"
+api-version: 1.16
+authors: [ItchyDitchy]
+main: net.earthrealms.manacore.ManaCorePlugin
+description: Another layer of protection for a server.
+softdepend: [SuperiorSkyblock2, PlaceholderAPI, Vault, PermissionsEX, LuckPerms]
+
+commands:
+  tmine:
+  

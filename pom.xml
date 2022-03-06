@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>EarthRealms</groupId>
+	<artifactId>EarthManaCore</artifactId>
+	<version>v0.0.01</version>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<build>
+		<defaultGoal>clean install</defaultGoal>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<!-- <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.3</version>
+				<configuration>
+					<relocations>
+						<relocation>
+							<pattern>com.bgsoftware.common.config</pattern>
+							<shadedPattern>com.bgsoftware.common.config</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.bgsoftware.common.reflection</pattern>
+							<shadedPattern>com.bgsoftware.common.reflection</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins> -->
+
+	</build>
+
+	<repositories>
+
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+
+		<repository>
+			<id>common</id>
+			<url>https://repo.bg-software.com/repository/common/</url>
+		</repository>
+
+		<repository>
+			<id>bg-repo</id>
+			<url>https://repo.bg-software.com/repository/api/</url>
+		</repository>
+
+	</repositories>
+
+	<dependencies>
+
+		<!-- 1.16.5 Spigot -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.16.5-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Reflection Utilities -->
+		<dependency>
+			<groupId>com.bgsoftware.common.reflection</groupId>
+			<artifactId>ReflectionUtils</artifactId>
+			<version>latest</version>
+		</dependency>
+
+		<!-- CommentedConfiguration -->
+		<dependency>
+			<groupId>com.bgsoftware.common.config</groupId>
+			<artifactId>CommentedConfiguration</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.bgsoftware</groupId>
+			<artifactId>SuperiorSkyblockAPI</artifactId>
+			<version>1.8.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>FastAsyncWorldEdit</groupId>
+			<artifactId>FastAsyncWorldEdit</artifactId>
+			<scope>system</scope>
+			<version>1.0</version>
+			<systemPath>C:/Users/FastAsyncWorldEdit.jar</systemPath>
+		</dependency>
+	</dependencies>
+
+</project>

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>EarthRealms</groupId>
-  <artifactId>EarthManaCore</artifactId>
-  <version>v0.0.01</version>
+  <groupId>en2fa</groupId>
+  <artifactId>Earth2FA</artifactId>
+  <version>v0.0.02</version>
   <build>
     <defaultGoal>clean install</defaultGoal>
     <resources>
       <resource>
-        <filtering>true</filtering>
         <directory>src/main/resources</directory>
       </resource>
     </resources>
@@ -27,12 +26,8 @@
         <configuration>
           <relocations>
             <relocation>
-              <pattern>com.bgsoftware.common.config</pattern>
-              <shadedPattern>com.bgsoftware.common.config</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>com.bgsoftware.common.reflection</pattern>
-              <shadedPattern>com.bgsoftware.common.reflection</shadedPattern>
+              <pattern>com.warrenstrange.googleauth</pattern>
+              <shadedPattern>com.warrenstrange.googleauth</shadedPattern>
             </relocation>
           </relocations>
         </configuration>
@@ -47,14 +42,6 @@
     <repository>
       <id>common</id>
       <url>https://repo.bg-software.com/repository/common/</url>
-    </repository>
-    <repository>
-      <id>bg-repo</id>
-      <url>https://repo.bg-software.com/repository/api/</url>
-    </repository>
-    <repository>
-      <id>sk89q-repo</id>
-      <url>&gt;http://maven.sk89q.com/repo/</url>
     </repository>
   </repositories>
   <dependencies>
@@ -91,7 +78,7 @@
       <artifactId>FastAsyncWorldEdit</artifactId>
       <version>1.0</version>
       <scope>system</scope>
-      <systemPath>C:/Users/FastAsyncWorldEdit.jar</systemPath>
+      <systemPath>C:\Tools\Jars/KiteBoard.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

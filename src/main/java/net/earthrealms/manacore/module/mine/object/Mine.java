@@ -27,7 +27,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 
 import net.earthrealms.manacore.ManaCorePlugin;
-import net.earthrealms.manacore.api.exception.InvalidDirectionException;
+import net.earthrealms.manacore.lang.Message;
 
 public class Mine {
 
@@ -73,6 +73,11 @@ public class Mine {
 	 * @param uuid The UUID of the player to teleport.
 	 */
 	public void teleport(@Nonnull UUID uuid) {
+		if (bannedMembers.contains(uuid)) {
+			Message.SYSTEM_PERMISSION.send(Bukkit.getPlayer(uuid));
+			return;
+		}
+		
 		teleport(Bukkit.getPlayer(uuid));
 	}
 	
@@ -244,7 +249,7 @@ public class Mine {
 		}
 	}
 	
-	public void setBlocks(Map<Material, Double> blocks) {
+	public void setBlocks(@Nonnull Map<Material, Double> blocks) {
 
 	}
 
@@ -348,7 +353,7 @@ public class Mine {
 	/**
 	 * @param uuid The uuid of the player to whitelist.
 	 */
-	public void whitelistPlayer(UUID uuid) {
+	public void whitelistPlayer(@Nonnull UUID uuid) {
 		if (whitelistedMembers.contains(uuid)) {
 			return;
 		}
@@ -358,21 +363,21 @@ public class Mine {
 	/**
 	 * @param player The player to whitelist.
 	 */
-	public void whitelistPlayer(Player player) {
+	public void whitelistPlayer(@Nonnull Player player) {
 		whitelistPlayer(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to whitelist.
 	 */
-	public void whitelistPlayer(OfflinePlayer offlinePlayer) {
+	public void whitelistPlayer(@Nonnull OfflinePlayer offlinePlayer) {
 		whitelistPlayer(offlinePlayer.getUniqueId());
 	}
 	
 	/**
 	 * @param uuid The uuid of the player to unwhitelist from the mine.
 	 */
-	public void unwhitelistPlayer(UUID uuid) {
+	public void unwhitelistPlayer(@Nonnull UUID uuid) {
 		if (!whitelistedMembers.contains(uuid)) {
 			return;
 		}
@@ -382,14 +387,14 @@ public class Mine {
 	/**
 	 * @param player The player to unwhitelist from the mine.
 	 */
-	public void unwhitelistPlayer(Player player) {
+	public void unwhitelistPlayer(@Nonnull Player player) {
 		unwhitelistPlayer(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to unwhitelist from the mine.
 	 */
-	public void unwhitelistPlayer(OfflinePlayer offlinePlayer) {
+	public void unwhitelistPlayer(@Nonnull OfflinePlayer offlinePlayer) {
 		unwhitelistPlayer(offlinePlayer.getUniqueId());
 	}
 	
@@ -418,7 +423,7 @@ public class Mine {
 	/**
 	 * @param uuid The uuid of the player to ban.
 	 */
-	public void banPlayer(UUID uuid) {
+	public void banPlayer(@Nonnull UUID uuid) {
 		if (bannedMembers.contains(uuid)) {
 			return;
 		}
@@ -428,21 +433,21 @@ public class Mine {
 	/**
 	 * @param player The player to ban.
 	 */
-	public void banPlayer(Player player) {
+	public void banPlayer(@Nonnull Player player) {
 		banPlayer(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to ban.
 	 */
-	public void banPlayer(OfflinePlayer offlinePlayer) {
+	public void banPlayer(@Nonnull OfflinePlayer offlinePlayer) {
 		banPlayer(offlinePlayer.getUniqueId());
 	}
 	
 	/**
 	 * @param uuid The uuid of the player to unban.
 	 */
-	public void unbanPlayer(UUID uuid) {
+	public void unbanPlayer(@Nonnull UUID uuid) {
 		if (!bannedMembers.contains(uuid)) {
 			return;
 		}
@@ -452,14 +457,14 @@ public class Mine {
 	/**
 	 * @param player The player to unban.
 	 */
-	public void unbanPlayer(Player player) {
+	public void unbanPlayer(@Nonnull Player player) {
 		unbanPlayer(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to unban.
 	 */
-	public void unbanPlayer(OfflinePlayer offlinePlayer) {
+	public void unbanPlayer(@Nonnull OfflinePlayer offlinePlayer) {
 		unbanPlayer(offlinePlayer.getUniqueId());
 	}
 	
@@ -511,6 +516,15 @@ public class Mine {
 	 */
 	public int getMaxMiners() {
 		return maxMiners;
+	}
+	
+	// TODO Documentation
+	public boolean isInMine(UUID uuid) {
+		return miners.contains(uuid);
+	}
+	
+	public boolean isInMine(Player player) {
+		return miners.contains(player.getUniqueId());
 	}
 	
 	/**

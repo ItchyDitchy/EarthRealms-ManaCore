@@ -27,20 +27,7 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.4.3</version>
 				<configuration>
-					<artifactSet>
-						<excludes>
-							<exclude>SuperiorSkyblockAPI</exclude>
-						</excludes>
-					</artifactSet>
 					<relocations>
-						<relocation>
-							<pattern>com.bgsoftware.common.config</pattern>
-							<shadedPattern>net.earthrealms.commons.config</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.bgsoftware.common.reflection</pattern>
-							<shadedPattern>net.earthrealms.commons.relocation</shadedPattern>
-						</relocation>
 						<relocation>
 							<pattern>net.jitse.npclib</pattern>
 							<shadedPattern>net.earthrealms.commons.npclib</shadedPattern>
@@ -68,16 +55,6 @@
 		</repository>
 
 		<repository>
-			<id>common</id>
-			<url>https://repo.bg-software.com/repository/common/</url>
-		</repository>
-
-		<repository>
-			<id>bg-repo</id>
-			<url>https://repo.bg-software.com/repository/api/</url>
-		</repository>
-
-		<repository>
 			<id>codemc-repo</id>
 			<url>https://repo.codemc.org/repository/maven-public/</url>
 		</repository>
@@ -99,24 +76,8 @@
 		</dependency>
 
 		<!-- Commons -->
-		<dependency>
-			<groupId>com.bgsoftware.common.reflection</groupId>
-			<artifactId>ReflectionUtils</artifactId>
-			<version>latest</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.bgsoftware.common.config</groupId>
-			<artifactId>CommentedConfiguration</artifactId>
-			<version>1.0.3</version>
-		</dependency>
 
 		<!-- API -->
-		<dependency>
-			<groupId>com.bgsoftware</groupId>
-			<artifactId>SuperiorSkyblockAPI</artifactId>
-			<version>1.8.4</version>
-		</dependency>
 
 		<dependency>
 			<groupId>fr.xephi</groupId>
@@ -139,6 +100,13 @@
 			<scope>system</scope>
 			<version>1.0</version>
 			<systemPath>C:\Tools\Jars/FastAsyncWorldEdit.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>SuperiorSkyblock2</groupId>
+			<artifactId>SuperiorSkyblock2</artifactId>
+			<scope>system</scope>
+			<version>1.0</version>
+			<systemPath>C:\Tools\Jars/SuperiorSkyblock2.jar</systemPath>
 		</dependency>
 
 		<!-- Utilities -->

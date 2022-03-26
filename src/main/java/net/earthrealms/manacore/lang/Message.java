@@ -25,6 +25,8 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+// Language System from OmerBenGera @ Github
+
 public enum Message {
 
 	INVALID_BLOCK,
@@ -45,9 +47,8 @@ public enum Message {
 	LANGUAGE_RELOAD_PRE,
 	LANGUAGE_RELOAD_POST,
 	
-	NULL,
+	NPE,
 
-	MINE_ADD,
 	MINE_ADMIN_DECREASE,
 	MINE_ADMIN_DECREASE_MINIMUM,
 	MINE_ADMIN_INCREASE,
@@ -55,8 +56,17 @@ public enum Message {
 	MINE_ADMIN_RESET,
 	MINE_ADMIN_RESET_COOLDOWN,
 	MINE_ADMIN_RESET_NOT_OWNER,
-	MINE_BAN,
+	
+	MINE_BLACKLIST_ADD,
+	MINE_BLACKLIST_ADD_ALREADY,
+	MINE_BLACKLIST_LIST,
+	MINE_BLACKLIST_LIST_NONE,
+	MINE_BLACKLIST_REMOVE,
+	MINE_BLACKLIST_REMOVE_ALREADY,
+	MINE_CLOSE,
+	MINE_CLOSE_ALREADY,
 	MINE_CREATED,
+	MINE_CREATING,
 	MINE_DECREASE,
 	MINE_DECREASE_MINIMUM,
 	MINE_ERROR_MINELESS,
@@ -64,13 +74,34 @@ public enum Message {
 	MINE_HELP_ADMIN,
 	MINE_INCREASE,
 	MINE_INCREASE_MAXIMUM,
-	MINE_PRIORITY,
-	MINE_REMOVE,
+	MINE_KICK_COOWNER,
+	MINE_KICK_OWNER,
+	MINE_KICK_PRIORITY,
+	MINE_KICKED_COOWNER,
+	MINE_KICKED_OWNER,
+	MINE_KICKED_PRIORITY,
+	MINE_LOCATION_NONE,
+	MINE_MINERS,
+	MINE_MINERS_NONE,
+	MINE_OPEN,
+	MINE_OPEN_ALREADY,
+	MINE_PRIORITY_ADD,
+	MINE_PRIORITY_ADD_ALREADY,
+	MINE_PRIORITY_LIST,
+	MINE_PRIORITY_LIST_NONE,
+	MINE_PRIORITY_REMOVE,
+	MINE_PRIORITY_REMOVE_ALREADY,
 	MINE_RESET,
 	MINE_RESET_COOLDOWN,
-	MINE_TP,
-	MINE_UNBAN,
+	MINE_STATUS,
+	MINE_TELEPORT,
 	MINE_USAGE,
+	MINE_WHITELIST_ADD,
+	MINE_WHITELIST_ADD_ALREADY,
+	MINE_WHITELIST_LIST,
+	MINE_WHITELIST_LIST_NONE,
+	MINE_WHITELIST_REMOVE,
+	MINE_WHITELIST_REMOVE_ALREADY,
 
 	SYSTEM_ONLY_CONSOLE,
 	SYSTEM_ONLY_PLAYER,
@@ -90,6 +121,7 @@ public enum Message {
 	TIME_MONTHS,
 	TIME_YEAR,
 	TIME_YEARS,
+	
 	TIME_SHORTCUT_SECOND,
 	TIME_SHORTCUT_SECONDS,
 	TIME_SHORTCUT_MINUTE,
@@ -201,7 +233,7 @@ public enum Message {
         PlayerLocales.clearLocales();
 
         File langFolder = new File(plugin.getDataFolder(), "lang");
-
+        
         if (!langFolder.exists()) {
             plugin.saveResource("lang/en-US.yml", false);
         }
@@ -220,6 +252,7 @@ public enum Message {
                 PluginDebugger.debug(ex);
                 continue;
             }
+            ManaCorePlugin.log(langFile.toString());
 
             PlayerLocales.registerLocale(fileLocale);
 

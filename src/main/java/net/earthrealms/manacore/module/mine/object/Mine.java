@@ -35,11 +35,11 @@ public class Mine {
 	private UUID owner;
 	private UUID coOwner;
 	
-	private List<UUID> whitelistedMembers;
-	private List<UUID> bannedMembers;
-	private List<UUID> priorityMembers;
+	private List<UUID> whitelist;
+	private List<UUID> blacklist;
+	private List<UUID> priorities;
 	
-	private int blocksBroken = 0;
+	private int currentBlocks = 0;
 	private int maxBlocks = 0;
 	
 	private int mineSize = 9;
@@ -73,11 +73,6 @@ public class Mine {
 	 * @param uuid The UUID of the player to teleport.
 	 */
 	public void teleport(@Nonnull UUID uuid) {
-		if (bannedMembers.contains(uuid)) {
-			Message.SYSTEM_PERMISSION.send(Bukkit.getPlayer(uuid));
-			return;
-		}
-		
 		teleport(Bukkit.getPlayer(uuid));
 	}
 	
@@ -93,6 +88,46 @@ public class Mine {
 	 */
 	public void teleport(@Nonnull SuperiorPlayer superiorPlayer) {
 		teleport(superiorPlayer.asPlayer());
+	}
+	
+	public boolean canTeleport(@Nonnull Player player) {
+
+		// TODO recode
+		
+		if (blacklist.contains(player.getUniqueId())) {
+			return false;
+		}
+		if (!open && !whitelist.contains(player.getUniqueId())) {
+			return false;
+		}
+		if (miners.contains(player.getUniqueId())) {
+			return true;
+		}
+		if (miners.size() >= maxMiners) {
+			if (isOwner(player) || isCoOwner(player)) {
+				List<Player> priority = new ArrayList<Player>();
+				List<Player> random = new ArrayList<Player>();
+				
+				for (UUID uuid : miners) {
+					Player miner = Bukkit.getPlayer(uuid);
+					if (miner == null) {
+						miners.remove(uuid);
+						miners.add(player.getUniqueId());
+						return true;
+					}
+					if (isPrioritized(miner)) {
+						priority.add(miner);
+						continue;
+					}
+				}
+				return false;
+			}
+			if (isPrioritized(player.getUniqueId())) {
+				return false;
+			}
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -114,7 +149,7 @@ public class Mine {
 		}
 
 		int halfSize = (mineSize-1)/2;
-		EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
+		
 		Location center = island.getCenter(Environment.NORMAL);
 
 		ManaCorePlugin plugin = ManaCorePlugin.getPlugin();
@@ -122,15 +157,16 @@ public class Mine {
 
 		int x1 = (int) (center.getX() - halfSize);
 		int x2 = (int) (center.getX() + halfSize);
-		int y1 = plugin.getMineHandler().getMinHeight();
-		int y2 = plugin.getMineHandler().getMaxHeight();
-		int z1 = (int) (center.getZ() - halfSize);
-		int z2 = (int) (center.getZ() + halfSize);
+		int y1 = plugin.getMineHandler().getSizeVerticalMinimum();
+		int y2 = plugin.getMineHandler().getSizeVerticalMaximum();
+		int z1 = (int) (center.getZ() - halfSize) - 1;
+		int z2 = (int) (center.getZ() + halfSize) - 1;
 		
 		Pattern pattern = ManaCorePlugin.getPlugin().getMineHandler().getBlocks(superiorPlayer);
 		
 		switch (direction) {
 		case INSTANT:
+			EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
 			Region region = new CuboidRegion(
 					BlockVector3.at(x1, y1, z1),
 					BlockVector3.at(x2, y2, z2));
@@ -146,6 +182,7 @@ public class Mine {
 
 					@Override
 					public void run(){
+						EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
 						Region region = new CuboidRegion(
 								BlockVector3.at(x1, layer, z1),
 								BlockVector3.at(x2, layer, z2));
@@ -164,6 +201,7 @@ public class Mine {
 
 					@Override
 					public void run(){
+						EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
 						Region region = new CuboidRegion(
 								BlockVector3.at(x1, layer, z1),
 								BlockVector3.at(x2, layer, z2));
@@ -182,6 +220,7 @@ public class Mine {
 
 					@Override
 					public void run(){
+						EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
 						Region region = new CuboidRegion(
 								BlockVector3.at(x1, y1, layer),
 								BlockVector3.at(x2, y2, layer));
@@ -200,6 +239,7 @@ public class Mine {
 
 					@Override
 					public void run(){
+						EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
 						Region region = new CuboidRegion(
 								BlockVector3.at(layer, y1, z1),
 								BlockVector3.at(layer, y2, z2));
@@ -218,6 +258,7 @@ public class Mine {
 
 					@Override
 					public void run(){
+						EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
 						Region region = new CuboidRegion(
 								BlockVector3.at(x1, y1, layer),
 								BlockVector3.at(x2, y2, layer));
@@ -236,6 +277,7 @@ public class Mine {
 
 					@Override
 					public void run(){
+						EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(BukkitAdapter.adapt(SuperiorSkyblockAPI.getIslandsWorld(island, Environment.NORMAL)), -1);
 						Region region = new CuboidRegion(
 								BlockVector3.at(layer, y1, z1),
 								BlockVector3.at(layer, y2, z2));
@@ -328,20 +370,70 @@ public class Mine {
 		return Bukkit.getOfflinePlayer(coOwner);
 	}
 	
+	// TODO description
+	
+	/**
+	 * @param uuid
+	 * @return
+	 */
+	public boolean isOwner(UUID uuid) {
+		return owner == uuid;
+	}
+	
+	/**
+	 * @param player
+	 * @return
+	 */
+	public boolean isOwner(Player player) {
+		return isOwner(player.getUniqueId());
+	}
+	
+	/**
+	 * @param offlinePlayer
+	 * @return
+	 */
+	public boolean isOwner(OfflinePlayer offlinePlayer) {
+		return isOwner(offlinePlayer.getUniqueId());
+	}
+	
+	/**
+	 * @param uuid
+	 * @return
+	 */
+	public boolean isCoOwner(UUID uuid) {
+		return coOwner == uuid;
+	}
+	
+	/**
+	 * @param player
+	 * @return
+	 */
+	public boolean isCoOwner(Player player) {
+		return isCoOwner(player.getUniqueId());
+	}
+	
+	/**
+	 * @param offlinePlayer
+	 * @return
+	 */
+	public boolean isCoOwner(OfflinePlayer offlinePlayer) {
+		return isCoOwner(offlinePlayer.getUniqueId());
+	}
+	
 	/**
 	 * @return a list of whitelisted players' ids.
 	 */
-	public List<UUID> getWhitelistedMembersIDs() {
-		return whitelistedMembers;
+	public List<UUID> getWhitelistIDs() {
+		return whitelist;
 		
 	}
 	
 	/**
 	 * @return a list of whitelisted players.
 	 */
-	public List<Player> getWhitelistedMembers() {
+	public List<Player> getWhitelist() {
 		List<Player> whitelistList = new ArrayList();
-		for (UUID uuid : whitelistedMembers) {
+		for (UUID uuid : whitelist) {
 			Player player = Bukkit.getPlayer(uuid);
 			if (player != null) {
 				whitelistList.add(player);
@@ -353,119 +445,259 @@ public class Mine {
 	/**
 	 * @param uuid The uuid of the player to whitelist.
 	 */
-	public void whitelistPlayer(@Nonnull UUID uuid) {
-		if (whitelistedMembers.contains(uuid)) {
+	public void whitelist(@Nonnull UUID uuid) {
+		if (whitelist.contains(uuid)) {
 			return;
 		}
-		whitelistedMembers.add(uuid);
+		whitelist.add(uuid);
 	}
 	
 	/**
 	 * @param player The player to whitelist.
 	 */
-	public void whitelistPlayer(@Nonnull Player player) {
-		whitelistPlayer(player.getUniqueId());
+	public void whitelist(@Nonnull Player player) {
+		whitelist(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to whitelist.
 	 */
-	public void whitelistPlayer(@Nonnull OfflinePlayer offlinePlayer) {
-		whitelistPlayer(offlinePlayer.getUniqueId());
+	public void whitelist(@Nonnull OfflinePlayer offlinePlayer) {
+		whitelist(offlinePlayer.getUniqueId());
 	}
 	
 	/**
 	 * @param uuid The uuid of the player to unwhitelist from the mine.
 	 */
-	public void unwhitelistPlayer(@Nonnull UUID uuid) {
-		if (!whitelistedMembers.contains(uuid)) {
+	public void unwhitelist(@Nonnull UUID uuid) {
+		if (!whitelist.contains(uuid)) {
 			return;
 		}
-		whitelistedMembers.remove(uuid);
+		whitelist.remove(uuid);
 	}
 	
 	/**
 	 * @param player The player to unwhitelist from the mine.
 	 */
-	public void unwhitelistPlayer(@Nonnull Player player) {
-		unwhitelistPlayer(player.getUniqueId());
+	public void unwhitelist(@Nonnull Player player) {
+		unwhitelist(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to unwhitelist from the mine.
 	 */
-	public void unwhitelistPlayer(@Nonnull OfflinePlayer offlinePlayer) {
-		unwhitelistPlayer(offlinePlayer.getUniqueId());
+	public void unwhitelist(@Nonnull OfflinePlayer offlinePlayer) {
+		unwhitelist(offlinePlayer.getUniqueId());
+	}
+
+	// TODO documentation
+	/**
+	 * @param uuid
+	 * @return
+	 */
+	public boolean isWhitelisted(UUID uuid) {
+		return whitelist.contains(uuid);
+	}
+	
+	/**
+	 * @param player
+	 * @return
+	 */
+	public boolean isWhitelisted(Player player) {
+		return isWhitelisted(player.getUniqueId());
+	}
+	
+	/**
+	 * @param offlinePlayer
+	 * @return
+	 */
+	public boolean isWhitelisted(OfflinePlayer offlinePlayer) {
+		return isWhitelisted(offlinePlayer.getUniqueId());
 	}
 	
 	/**
 	 * @return a list of banned players' uuid on the mine.
 	 */
-	public List<UUID> getBannedMembersIDs() {
-		return bannedMembers;
+	public List<UUID> getBlacklistIDs() {
+		return blacklist;
 		
 	}
 	
 	/**
 	 * @return a list of banned players on the mine.
 	 */
-	public List<Player> getBannedMembers() {
-		List<Player> banList = new ArrayList();
-		for (UUID uuid : bannedMembers) {
+	public List<Player> getBlacklist() {
+		List<Player> blacklist = new ArrayList();
+		for (UUID uuid : this.blacklist) {
 			Player player = Bukkit.getPlayer(uuid);
 			if (player != null) {
-				banList.add(player);
+				blacklist.add(player);
 			}
 		}
-		return banList;
+		return blacklist;
 	}
 	
 	/**
 	 * @param uuid The uuid of the player to ban.
 	 */
-	public void banPlayer(@Nonnull UUID uuid) {
-		if (bannedMembers.contains(uuid)) {
+	public void blacklist(@Nonnull UUID uuid) {
+		if (blacklist.contains(uuid)) {
 			return;
 		}
-		bannedMembers.add(uuid);
+		blacklist.add(uuid);
 	}
 	
 	/**
 	 * @param player The player to ban.
 	 */
-	public void banPlayer(@Nonnull Player player) {
-		banPlayer(player.getUniqueId());
+	public void blacklist(@Nonnull Player player) {
+		blacklist(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to ban.
 	 */
-	public void banPlayer(@Nonnull OfflinePlayer offlinePlayer) {
-		banPlayer(offlinePlayer.getUniqueId());
+	public void blacklist(@Nonnull OfflinePlayer offlinePlayer) {
+		blacklist(offlinePlayer.getUniqueId());
 	}
 	
 	/**
 	 * @param uuid The uuid of the player to unban.
 	 */
-	public void unbanPlayer(@Nonnull UUID uuid) {
-		if (!bannedMembers.contains(uuid)) {
+	public void unblacklist(@Nonnull UUID uuid) {
+		if (!blacklist.contains(uuid)) {
 			return;
 		}
-		bannedMembers.remove(uuid);
+		blacklist.remove(uuid);
 	}
 	
 	/**
 	 * @param player The player to unban.
 	 */
-	public void unbanPlayer(@Nonnull Player player) {
-		unbanPlayer(player.getUniqueId());
+	public void unblacklist(@Nonnull Player player) {
+		unblacklist(player.getUniqueId());
 	}
 	
 	/**
 	 * @param offlinePlayer The offline player to unban.
 	 */
-	public void unbanPlayer(@Nonnull OfflinePlayer offlinePlayer) {
-		unbanPlayer(offlinePlayer.getUniqueId());
+	public void unblacklist(@Nonnull OfflinePlayer offlinePlayer) {
+		unblacklist(offlinePlayer.getUniqueId());
+	}
+	
+	// TODO documentation
+	/**
+	 * @param uuid
+	 * @return
+	 */
+	public boolean isBlacklisted(UUID uuid) {
+		return blacklist.contains(uuid);
+	}
+
+	/**
+	 * @param player
+	 * @return
+	 */
+	public boolean isBlacklisted(Player player) {
+		return isBlacklisted(player.getUniqueId());
+	}
+
+	/**
+	 * @param offlinePlayer
+	 * @return
+	 */
+	public boolean isBlacklisted(OfflinePlayer offlinePlayer) {
+		return isBlacklisted(offlinePlayer.getUniqueId());
+	}
+	
+	// TODO change
+
+	public List<UUID> getPrioritiesID() {
+		return priorities;
+	}
+
+	public List<Player> getPriorities() {
+		List<Player> priorities = new ArrayList();
+		for (UUID uuid : this.priorities) {
+			Player player = Bukkit.getPlayer(uuid);
+			if (player != null) {
+				priorities.add(player);
+			}
+		}
+		return priorities;
+	}
+	
+	/**
+	 * @param uuid The uuid of the player to prioritize.
+	 */
+	public void prioritize(@Nonnull UUID uuid) {
+		if (priorities.contains(uuid)) {
+			return;
+		}
+		priorities.add(uuid);
+	}
+	
+	/**
+	 * @param player The player to prioritize.
+	 */
+	public void prioritize(@Nonnull Player player) {
+		prioritize(player.getUniqueId());
+	}
+	
+	/**
+	 * @param offlinePlayer The offline player to prioritize.
+	 */
+	public void prioritize(@Nonnull OfflinePlayer offlinePlayer) {
+		prioritize(offlinePlayer.getUniqueId());
+	}
+	
+	/**
+	 * @param uuid The uuid of the player to unprioritize.
+	 */
+	public void unprioritize(@Nonnull UUID uuid) {
+		if (!priorities.contains(uuid)) {
+			return;
+		}
+		priorities.remove(uuid);
+	}
+	
+	/**
+	 * @param player The player to unprioritize.
+	 */
+	public void unprioritize(@Nonnull Player player) {
+		unprioritize(player.getUniqueId());
+	}
+	
+	/**
+	 * @param offlinePlayer The offline player to unprioritize.
+	 */
+	public void unprioritize(@Nonnull OfflinePlayer offlinePlayer) {
+		unprioritize(offlinePlayer.getUniqueId());
+	}
+	
+	// TODO documentation
+	/**
+	 * @param uuid
+	 * @return
+	 */
+	public boolean isPrioritized(UUID uuid) {
+		return blacklist.contains(uuid);
+	}
+
+	/**
+	 * @param player
+	 * @return
+	 */
+	public boolean isPrioritized(Player player) {
+		return isPrioritized(player.getUniqueId());
+	}
+
+	/**
+	 * @param offlinePlayer
+	 * @return
+	 */
+	public boolean isPrioritized(OfflinePlayer offlinePlayer) {
+		return isPrioritized(offlinePlayer.getUniqueId());
 	}
 	
 	/**

@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.earthrealms.manacore.ManaCorePlugin;
-import net.earthrealms.manacore.module.account.exception.InvalidPlayerException;
+import net.earthrealms.manacore.api.exception.InvalidPlayerException;
 import net.earthrealms.manacore.module.currency.object.Currency;
 import net.earthrealms.manacore.utility.string.StringUtility;
 

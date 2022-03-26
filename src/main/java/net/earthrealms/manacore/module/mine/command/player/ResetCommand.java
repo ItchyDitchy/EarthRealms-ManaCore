@@ -1,8 +1,11 @@
 package net.earthrealms.manacore.module.mine.command.player;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,27 +17,30 @@ import net.earthrealms.manacore.ManaCorePlugin;
 import net.earthrealms.manacore.api.command.EarthCommand;
 import net.earthrealms.manacore.lang.Message;
 import net.earthrealms.manacore.module.mine.object.Mine;
+import net.earthrealms.manacore.utility.string.StringUtility;
 
-public class OpenCommand implements EarthCommand {
+public class ResetCommand implements EarthCommand {
 
+	private Map<UUID, Long> cooldown = new HashMap<UUID, Long>();
+	
 	@Override
 	public List<String> getAliases() {
-		return Arrays.asList("open");
+		return Arrays.asList("reset");
 	}
 
 	@Override
 	public String getPermission() {
-		return "Mine.Open";
+		return "Mine.Reset";
 	}
 
 	@Override
 	public String getUsage(Locale locale) {
-		return "open";
+		return "reset";
 	}
 
 	@Override
 	public String getDescription(Locale locale) {
-		return "opens the mine.";
+		return "Reset the mine.";
 	}
 
 	@Override
@@ -66,15 +72,28 @@ public class OpenCommand implements EarthCommand {
 		}
 		Island island = SuperiorSkyblockAPI.getIslandAt(player.getLocation());
 		Mine mine = new Mine(island.getUniqueId());
-		if (mine.isOpen()) {
-			Message.MINE_OPEN_ALREADY.send(commandSender);
+		
+		if (!mine.isOwner(player) && !mine.isCoOwner(player)) {
+			Message.SYSTEM_PERMISSION.send(commandSender);
 			return;
 		}
-		mine.open();
+		
+		if (!cooldown.containsKey(island.getUniqueId())) {
+			cooldown.put(island.getUniqueId(), System.currentTimeMillis() - 10);
+		}
+		
+		if (cooldown.get(island.getUniqueId()) >= System.currentTimeMillis()) {
+			Message.MINE_RESET_COOLDOWN.send(commandSender, StringUtility.timeFormat(System.currentTimeMillis() - cooldown.get(island.getUniqueId())));
+			return;
+		}
+		
+		cooldown.put(island.getUniqueId(), System.currentTimeMillis() + (60*1000));
+		mine.reset(plugin.getMineHandler().getDefaultRegenDirection());
+		Message.MINE_RESET.send(commandSender);
 	}
 
 	@Override
-	public List<String> tabComplete(ManaCorePlugin plugin, CommandSender commandSender, String[] args) {
+	public List<String> tabComplete(ManaCorePlugin plugin, CommandSender sender, String[] args) {
 		return null;
 	}
 

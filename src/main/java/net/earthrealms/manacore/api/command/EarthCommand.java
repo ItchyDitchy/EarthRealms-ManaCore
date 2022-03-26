@@ -65,7 +65,7 @@ public interface EarthCommand  {
      * @param sender The sender who ran the command.
      * @param args   The arguments of the command.
      */
-    void execute(ManaCorePlugin plugin, CommandSender sender, String[] args);
+    void execute(ManaCorePlugin plugin, CommandSender commandSender, String[] args);
 
     /**
      * Get the tab-complete arguments of the command.
@@ -74,6 +74,6 @@ public interface EarthCommand  {
      * @param sender The sender who ran the command.
      * @param args   The arguments of the command.
      */
-    List<String> tabComplete(ManaCorePlugin plugin, CommandSender sender, String[] args);
+    List<String> tabComplete(ManaCorePlugin plugin, CommandSender commandSender, String[] args);
 
 }

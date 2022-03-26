@@ -12,12 +12,10 @@ INVALID_PLAYER: "&4&lError &8» &c{0}&f is not a valid player!"
 INVALID_TIER: "&4&lError &8» &c{0}&f is not a valid tier!"
 INVALID_ROBOT_TIER: "&4&lError &8» &c{0}&f is not a valid robot tier!"
 INVALID_WHOLE_NUMBER: "&4&lError &8» &c{0}&f is not a valid whole number!"
-
 LANGUAGE_RELOAD_PRE: "&3&lMana Core &8» &fThe plugin language is reloading!"
 LANGUAGE_RELOAD_POST: "&3&lMana Core &8» &fIt took {0}ms to load {1} messages from {2} languages!"
-
-NULL: "&4&lError &8» &fA NullPointerException had been called! Report this to a developer!"
-
+NPE: "&4&lError &8» &fA NullPointerException had been called! Report this to a developer!"
+MINE_ADD: ""
 MINE_ADMIN_DECREASE: "&2&lMines &8» &fSuccessfully decreased a {0}'s mine size by &a{1}&f."
 MINE_ADMIN_DECREASE_MINIMUM: "&2&lMines &8» &fSuccessfully decreased a {0}'s mine size to the minimum!"
 MINE_ADMIN_INCREASE: "&2&lMines &8» &fSuccessfully increased a {0}'s mine size by &a{1}&f."
@@ -25,6 +23,11 @@ MINE_ADMIN_INCREASE_MAXIMUM: "&2&lMines &8» &fSuccessfully increased a {0}'s mi
 MINE_ADMIN_RESET: "&2&lMines &8» &fSuccessfully resetted a mine!"
 MINE_ADMIN_RESET_COOLDOWN: "&2&lMines &8» &fYou have to wait &e{0} &fbefore using this command!"
 MINE_ADMIN_RESET_NOT_OWNER: "&2&lMines &8» &fYou do not own this private mine!"
+MINE_BLACKLIST_ADD: "&2&lMines &8» &fYou have blacklisted &a{0}&f."
+MINE_BLACKLIST_ADD_ALREADY: "&2&lMines &8» &fThat player is already blacklisted!"
+MINE_BLACKLIST_LIST: "&2&lMines &8» &fThe blacklisted players are: &a{0}&f."
+MINE_BLACKLIST_REMOVE: "&2&lMines &8» &fYou have blacklisted &a{0}&f."
+MINE_BLACKLIST_REMOVE_ALREADY:  "&2&lMines &8» &fThat player is not blacklisted!"
 MINE_CREATED: "&2&lMines &8» &fA mine had been created for you!"
 MINE_DECREASE: "&2&lMines &8» &fSuccessfully decreased t he mine size by &a{0}&f."
 MINE_DECREASE_MINIMUM: "&2&lMines &8» &fSuccessfully increased the mine to the minimum size!"
@@ -46,13 +49,19 @@ MINE_HELP_ADMIN: |
   &2 | &a/mine admin reset [player] &8- &fShow these messages.
 MINE_INCREASE: "&2&lMines &8» &fSuccessfully increased the mine size by &a{0}&f."
 MINE_INCREASE_MAXIMUM: "&2&lMines &8» &fSuccessfully increased the mine to the maximum size!"
+MINE_LOCATION_NONE: "&2&lMines &8» &fYou have to be in a mine to use this command!"
+MINE_MINERS: "&2&lMines &8» &fThere are &e{0}&6/&e{1}&f miners&8: &a{2}"
+MINE_MINERS_NONE: "&2&lMines &8» &fThere are no miners in the mine!"
+MINE_PRIORITY: ""
+MINE_REMOVE: ""
 MINE_RESET: "&2&lMines &8» &fSuccessfully reset mine!"
 MINE_RESET_COOLDOWN: "&2&lMines &8» &fYou must wait &a{0} &fbefore using this command!"
-
+MINE_TP: ""
+MINE_UNBAN: ""
+MINE_USAGE: ""
 SYSTEM_PERMISSION: "&4&lError &8» &fYou do not have enough permissions to use this!"
 SYSTEM_ONLY_CONSOLE: "&4&lError &8» &fThis cannot be used on console!"
 SYSTEM_ONLY_PLAYER: "&4&lError &8» &fThis cannot be used by a player!"
-
 TIME_SECOND: 'second'
 TIME_SECONDS: 'seconds'
 TIME_MINUTE: 'minute'
@@ -67,7 +76,6 @@ TIME_MONTH: 'month'
 TIME_MONTHS: 'months'
 TIME_YEAR: 'year'
 TIME_YEARS: 'years'
-
 TIME_SHORTCUT_SECOND: 'sec'
 TIME_SHORTCUT_SECONDS: 'secs'
 TIME_SHORTCUT_MINUTE: 'min'
@@ -82,13 +90,11 @@ TIME_SHORTCUT_MONTH: 'mnt'
 TIME_SHORTCUT_MONTHS: 'mnts'
 TIME_SHORTCUT_YEAR: 'yr'
 TIME_SHORTCUT_YEARS: 'yrs'
-
 USAGE: "&c&lError &8» &fIncorrect usage of the command! Usage: &6{0}"
 USAGE_OPTIONAL_PREFIX: '['
 USAGE_OPTIONAL_SUFFIX: ']'
 USAGE_REQUIRED_PREFIX: '<'
 USAGE_REQUIRED_SUFFIX: '>'
-
 VALUE_AMOUNT: 'amount'
 VALUE_ALL: '*'
 VALUE_BIOME: 'biome'

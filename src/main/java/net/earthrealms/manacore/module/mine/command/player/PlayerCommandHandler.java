@@ -18,7 +18,15 @@ public class PlayerCommandHandler {
 	private ManaCorePlugin plugin = ManaCorePlugin.getPlugin();
 	
 	public PlayerCommandHandler() {
-		
+		commands.add(new BlacklistCommand());
+		commands.add(new CloseCommand());
+		commands.add(new MinersCommand());
+		commands.add(new OpenCommand());
+		commands.add(new PriorityCommand());
+		commands.add(new ResetCommand());
+		commands.add(new StatusCommand());
+		commands.add(new TeleportCommand());
+		commands.add(new WhitelistCommand());
 	}
 	
 	public boolean execute(CommandSender commandSender, String[] args) {

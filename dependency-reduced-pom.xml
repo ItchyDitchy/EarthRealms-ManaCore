@@ -25,20 +25,7 @@
           </execution>
         </executions>
         <configuration>
-          <artifactSet>
-            <excludes>
-              <exclude>SuperiorSkyblockAPI</exclude>
-            </excludes>
-          </artifactSet>
           <relocations>
-            <relocation>
-              <pattern>com.bgsoftware.common.config</pattern>
-              <shadedPattern>net.earthrealms.commons.config</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>com.bgsoftware.common.reflection</pattern>
-              <shadedPattern>net.earthrealms.commons.relocation</shadedPattern>
-            </relocation>
             <relocation>
               <pattern>net.jitse.npclib</pattern>
               <shadedPattern>net.earthrealms.commons.npclib</shadedPattern>
@@ -52,14 +39,6 @@
     <repository>
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    </repository>
-    <repository>
-      <id>common</id>
-      <url>https://repo.bg-software.com/repository/common/</url>
-    </repository>
-    <repository>
-      <id>bg-repo</id>
-      <url>https://repo.bg-software.com/repository/api/</url>
     </repository>
     <repository>
       <id>codemc-repo</id>
@@ -106,11 +85,24 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.22</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>FastAsyncWorldEdit</groupId>
       <artifactId>FastAsyncWorldEdit</artifactId>
       <version>1.0</version>
       <scope>system</scope>
       <systemPath>C:\Tools\Jars/FastAsyncWorldEdit.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>SuperiorSkyblock2</groupId>
+      <artifactId>SuperiorSkyblock2</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>C:\Tools\Jars/SuperiorSkyblock2.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

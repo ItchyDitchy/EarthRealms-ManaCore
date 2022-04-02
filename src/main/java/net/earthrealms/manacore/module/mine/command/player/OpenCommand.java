@@ -34,7 +34,7 @@ public class OpenCommand implements EarthCommand {
 
 	@Override
 	public String getDescription(Locale locale) {
-		return "opens the mine.";
+		return "Open the mine.";
 	}
 
 	@Override
@@ -71,6 +71,7 @@ public class OpenCommand implements EarthCommand {
 			return;
 		}
 		mine.open();
+		Message.MINE_OPEN.send(commandSender);
 	}
 
 	@Override

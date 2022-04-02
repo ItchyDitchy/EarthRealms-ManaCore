@@ -1,8 +1,11 @@
 package net.earthrealms.manacore.module.mine;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,7 +13,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.bgsoftware.common.config.CommentedConfiguration;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
@@ -86,6 +92,66 @@ public class MineHandler {
         for (String key : config.getConfigurationSection("taxes.maximum").getKeys(false)) {
         	taxesMaximum.put(key.toUpperCase(), config.getInt("taxes.maximum." + key, 1));
         }
+	}
+	
+	public void loadMines() {
+		
+	}
+	
+	public void saveMines() {
+		
+	}
+	
+	private void loadMine(UUID uuid) {
+		
+	}
+	
+	private void saveMine(UUID uuid) {
+        final File folder = new File(plugin.getDataFolder(), "database/account");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        String fileName = uuid.toString() + ".yml";
+        File file = new File(folder, fileName);
+        if (!file.exists()) {
+        	try {
+        		file.createNewFile();
+        	} catch (IOException exception) {
+        		exception.printStackTrace();
+        	}
+        }
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        Mine mine = mines.get(uuid);
+
+        config.set("mineID", mine.getOwnerID().toString());
+        config.set("owner", mine.getOwnerID().toString());
+        config.set("coOwner", mine.getCoOwnerID().toString());
+
+        List<String> stringWhitelist = new ArrayList<String>();
+        List<String> stringBlacklist= new ArrayList<String>();
+        List<String> stringPriorities = new ArrayList<String>();
+        mine.getWhitelistIDs().forEach(id -> stringWhitelist.add(id.toString()));
+        mine.getBlacklistIDs().forEach(id -> stringBlacklist.add(id.toString()));
+        mine.getPrioritiesIDs().forEach(id -> stringPriorities.add(id.toString()));
+        config.set("whitelist", stringWhitelist);
+        config.set("blacklist", stringBlacklist);
+        config.set("priorities", stringPriorities);
+        
+        config.set("currentBlocks", mine.getCurrentBlocks());
+        config.set("maxBlocks", mine.getMaxBlocks());
+        
+        config.set("mineSize", mine.getSize());
+        config.set("open", mine.isOpen());
+        
+        config.set("maxMiners", mine.getMaxMiners());
+        
+        config.set("resetCooldown", mine.getResetTimeLeft());
+		try {
+			config.save(file);
+		} catch (IOException exception) {
+			 exception.printStackTrace();
+		}
 	}
 	
 	public void createMine(UUID uuid) {

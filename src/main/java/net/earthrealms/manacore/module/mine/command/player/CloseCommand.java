@@ -19,22 +19,22 @@ public class CloseCommand implements EarthCommand {
 
 	@Override
 	public List<String> getAliases() {
-		return Arrays.asList("open");
+		return Arrays.asList("close");
 	}
 
 	@Override
 	public String getPermission() {
-		return "Mine.Open";
+		return "Mine.Close";
 	}
 
 	@Override
 	public String getUsage(Locale locale) {
-		return "open";
+		return "close";
 	}
 
 	@Override
 	public String getDescription(Locale locale) {
-		return "opens the mine.";
+		return "Close the mine.";
 	}
 
 	@Override
@@ -67,10 +67,11 @@ public class CloseCommand implements EarthCommand {
 		Island island = SuperiorSkyblockAPI.getIslandAt(player.getLocation());
 		Mine mine = new Mine(island.getUniqueId());
 		if (mine.isOpen()) {
-			Message.MINE_OPEN_ALREADY.send(commandSender);
+			Message.MINE_CLOSE_ALREADY.send(commandSender);
 			return;
 		}
-		mine.open();
+		mine.close();
+		Message.MINE_CLOSE.send(commandSender);
 	}
 
 	@Override

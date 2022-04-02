@@ -68,7 +68,6 @@ public class StatusCommand implements EarthCommand {
 		Mine mine = new Mine(island.getUniqueId());
 		// TODO Parameters
 		Message.MINE_STATUS.send(commandSender);
-		
 	}
 
 	@Override

@@ -71,8 +71,8 @@ public class ResetCommand implements EarthCommand {
 			return;
 		}
 		Island island = SuperiorSkyblockAPI.getIslandAt(player.getLocation());
-		Mine mine = new Mine(island.getUniqueId());
-		
+		Mine mine = new Mine(player.getUniqueId());
+		commandSender.sendMessage(!mine.isOwner(player) + " : " + !mine.isCoOwner(player));
 		if (!mine.isOwner(player) && !mine.isCoOwner(player)) {
 			Message.SYSTEM_PERMISSION.send(commandSender);
 			return;

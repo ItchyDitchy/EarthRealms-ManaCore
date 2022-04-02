@@ -68,8 +68,8 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 		if (playerCommandHandler.execute(sender, args)) {
 			return true;
 		}
-
-		if (!args[0].equalsIgnoreCase("Administrator")) {
+		
+		if (args[0].equalsIgnoreCase("Administrator")) {
 			if (!sender.hasPermission("Mine.Administrator")) {
 				Message.SYSTEM_PERMISSION.send(sender);
 				return true;
@@ -89,7 +89,7 @@ public class MineCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
-		if (!args[0].equalsIgnoreCase("Developer")) {
+		if (args[0].equalsIgnoreCase("Developer")) {
 			if (!sender.hasPermission("Mine.Developer")) {
 				Message.SYSTEM_PERMISSION.send(sender);
 				return true;

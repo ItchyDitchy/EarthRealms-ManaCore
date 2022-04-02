@@ -97,7 +97,7 @@ public class PriorityCommand implements EarthCommand {
 			return;
 		}
 		if (args[1].equalsIgnoreCase("list")) {
-			if (mine.getPrioritiesID().isEmpty()) {
+			if (mine.getPrioritiesIDs().isEmpty()) {
 				Message.MINE_PRIORITY_LIST_NONE.send(commandSender);
 				return;
 			}

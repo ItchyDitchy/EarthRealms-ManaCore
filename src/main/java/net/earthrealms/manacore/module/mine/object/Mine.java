@@ -27,7 +27,6 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 
 import net.earthrealms.manacore.ManaCorePlugin;
-import net.earthrealms.manacore.lang.Message;
 
 public class Mine {
 
@@ -57,6 +56,7 @@ public class Mine {
 	 */
 	public Mine(@Nonnull UUID uuid) {
 		this.mineID = uuid;
+		owner = uuid;
 		this.mineSize = 9;
 	}
 	
@@ -150,7 +150,9 @@ public class Mine {
 
 		int halfSize = (mineSize-1)/2;
 		
-		Location center = island.getCenter(Environment.NORMAL);
+		Location center = island.getIslandHome(Environment.NORMAL);
+		center.setX(Math.floor(center.getX()));
+		center.setZ(Math.floor(center.getZ()));
 
 		ManaCorePlugin plugin = ManaCorePlugin.getPlugin();
 		int delay = 0;
@@ -159,8 +161,8 @@ public class Mine {
 		int x2 = (int) (center.getX() + halfSize);
 		int y1 = plugin.getMineHandler().getSizeVerticalMinimum();
 		int y2 = plugin.getMineHandler().getSizeVerticalMaximum();
-		int z1 = (int) (center.getZ() - halfSize) - 1;
-		int z2 = (int) (center.getZ() + halfSize) - 1;
+		int z1 = (int) (center.getZ() - halfSize);
+		int z2 = (int) (center.getZ() + halfSize);
 		
 		Pattern pattern = ManaCorePlugin.getPlugin().getMineHandler().getBlocks(superiorPlayer);
 		
@@ -287,6 +289,9 @@ public class Mine {
 					}
 				}, delay*2);
 			}
+			break;
+		default:
+			ManaCorePlugin.log("Error while regenerating a mine.");
 			break;
 		}
 	}
@@ -612,7 +617,7 @@ public class Mine {
 	
 	// TODO change
 
-	public List<UUID> getPrioritiesID() {
+	public List<UUID> getPrioritiesIDs() {
 		return priorities;
 	}
 
@@ -700,6 +705,15 @@ public class Mine {
 		return isPrioritized(offlinePlayer.getUniqueId());
 	}
 	
+	// TODO description
+	public int getCurrentBlocks() {
+		return currentBlocks;
+	}
+	
+	public int getMaxBlocks() {
+		return maxBlocks;
+	}
+	
 	/**
 	 * @return the size of the mine.
 	 */
@@ -726,7 +740,11 @@ public class Mine {
 	 */
 	public void close() {
 		open = false;
-		// TODO Teleport non-whitelisted miners to spawn.
+		for (Player player : getMiners()) {
+			if (!player.isWhitelisted() && !isCoOwner(player) && !isOwner(player)) {
+				player.teleport(SuperiorSkyblockAPI.getSpawnIsland().getIslandHome(Environment.NORMAL));
+			}
+		}
 	}
 	
 	/**
